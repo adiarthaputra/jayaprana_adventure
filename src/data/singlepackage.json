@@ -1,0 +1,93 @@
+[
+  {
+    "slug": "cycling-adventure",
+    "title": "CYCLING ADVENTURE",
+    "originalPrice": "IDR 450K",
+    "discountedPrice": "350K",
+    "image": "https://images.unsplash.com/photo-1541625602330-2277a4c46182?q=80&w=800&auto=format&fit=crop",
+    "details": [
+      "Price for 1 person",
+      "Professional local guide",
+      "Bicycle & safety gear included",
+      "Visit local villages & rice terraces",
+      "Get mineral water & snack",
+      "Traditional lunch included"
+    ],
+    "itinerary": [
+      "08:00 - Pick up from your hotel",
+      "09:00 - Arrive at starting point & safety briefing",
+      "09:30 - Start cycling through rice terraces & villages",
+      "12:00 - Finish cycling & enjoy traditional lunch",
+      "13:30 - Drop off back to hotel"
+    ],
+    "whatToBring": [
+      "Comfortable shoes",
+      "Sunblock",
+      "Sunglasses",
+      "Extra cash"
+    ],
+    "moreInfoUrl": "/cycling-adventure",
+    "bookNowUrl": "https://wa.me/6281337626262?text=Halo,%20saya%20tertarik%20untuk%20memesan%20Cycling%20Adventure."
+  },
+  {
+    "slug": "mount-batur-trekking",
+    "title": "MOUNT BATUR TREKKING",
+    "originalPrice": "IDR 600K",
+    "discountedPrice": "450K",
+    "image": "https://images.unsplash.com/photo-1501555088652-021faa106b9b?q=80&w=800&auto=format&fit=crop",
+    "details": [
+      "Price for 1 person",
+      "Sunrise view at Mount Batur",
+      "Experienced trekking guide",
+      "Flashlights & trekking poles",
+      "Breakfast cooked on volcanic steam",
+      "Hot tea or coffee at the summit"
+    ],
+    "itinerary": [
+      "01:30 - Pick up from your hotel",
+      "03:30 - Arrive at starting point & briefing",
+      "04:00 - Start trekking to the summit",
+      "06:00 - Arrive at summit, enjoy sunrise & breakfast",
+      "09:00 - Finish trekking & drop off back to hotel"
+    ],
+    "whatToBring": [
+      "Jacket",
+      "Trekking shoes",
+      "Camera",
+      "Extra cash"
+    ],
+    "moreInfoUrl": "/mount-batur-trekking",
+    "bookNowUrl": "https://wa.me/6281337626262?text=Halo,%20saya%20tertarik%20untuk%20memesan%20Mount%20Batur%20Trekking."
+  },
+  {
+    "slug": "ayung-river-rafting",
+    "title": "AYUNG RIVER RAFTING",
+    "originalPrice": "IDR 500K",
+    "discountedPrice": "405K",
+    "image": "https://images.unsplash.com/photo-1534150535316-2d3386be977c?q=80&w=800&auto=format&fit=crop",
+    "details": [
+      "Price for 1 person",
+      "2 hours of thrilling rafting",
+      "International standard safety equipment",
+      "Professional river guide",
+      "Shower facilities & towel provided",
+      "Buffet lunch included"
+    ],
+    "itinerary": [
+      "08:30 - Pick up from your hotel",
+      "10:00 - Arrive at starting point, briefing & gear up",
+      "10:30 - Start 2-hour rafting adventure",
+      "12:30 - Finish rafting, shower & change clothes",
+      "13:00 - Buffet lunch",
+      "14:00 - Drop off back to hotel"
+    ],
+    "whatToBring": [
+      "Change of clothes",
+      "Sandals/water shoes",
+      "Sunblock",
+      "Waterproof camera"
+    ],
+    "moreInfoUrl": "/ayung-river-rafting",
+    "bookNowUrl": "https://wa.me/6281337626262?text=Halo,%20saya%20tertarik%20untuk%20memesan%20Ayung%20River%20Rafting."
+  }
+]

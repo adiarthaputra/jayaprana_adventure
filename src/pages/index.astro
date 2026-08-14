@@ -1,0 +1,180 @@
+---
+import MainLayout from '../layouts/Layout.astro';
+import PackageCard from '../components/PackageCard.jsx';
+import packagesData from '../data/singlepackage.json';
+import siteSettingsData from '../data/siteSettings.json';
+import galleryData from '../data/gallery.json';
+import testimonialsData from '../data/testimonials.json';
+import faqData from '../data/faq.json';
+import aboutData from '../data/about.json'; 
+
+interface PackageData {
+  title: string;
+  originalPrice: string;
+  discountedPrice: string;
+  image: string;
+  details: string[];
+  moreInfoUrl: string;
+  bookNowUrl: string;
+}
+
+// --- MAGIC HELPER UNTUK GITHUB PAGES ---
+// Fungsi ini memastikan semua gambar tidak pecah saat di-hosting
+const formatUrl = (url: string) => {
+  if (!url) return '';
+  if (url.startsWith('http')) return url; // Abaikan jika gambar sudah dari internet luar
+  const base = import.meta.env.BASE_URL;
+  return `${base === '/' ? '' : base}${url.startsWith('/') ? url : '/' + url}`;
+};
+
+const settings = siteSettingsData;
+const faqs = faqData;
+const testimonials = testimonialsData;
+
+// Terapkan formatUrl ke semua data yang punya gambar
+const packages = (JSON.parse(JSON.stringify(packagesData)) as PackageData[]).map(pkg => ({
+  ...pkg,
+  image: formatUrl(pkg.image)
+}));
+
+const gallery = galleryData.map(img => ({
+  ...img,
+  url: formatUrl(img.url)
+}));
+
+const about = {
+  ...aboutData,
+  image: formatUrl(aboutData.image)
+}; 
+
+const pageTitle = `${settings.heroTitle} - Bali Adventure Explorer`;
+const pageDescription = settings.heroSubtitle;
+---
+
+<MainLayout
+  title={pageTitle}
+  description={pageDescription}
+  keywords="bali travel agent, bali rafting, bali trekking, bali cycling"
+  image={settings.heroBgImage} 
+>
+  {/* HERO */}
+  {/* Kita pakai formatUrl di background-image agar gambar Hero muncul! */}
+  <section id="home" class="min-h-screen flex items-center justify-center relative" style={`background-image: url('${formatUrl(settings.heroBgImage)}'); background-size: cover; background-position: center;`}>
+    <div class="absolute inset-0 bg-black opacity-60"></div>
+    <div class="text-center relative z-10 text-white p-4 max-w-4xl mx-auto">
+        <h1 class="text-4xl md:text-6xl font-bold mb-4 leading-tight">{settings.heroTitle}</h1>
+        <p class="text-lg md:text-xl mb-8 text-gray-200">{settings.heroSubtitle}</p>
+        <a href="#package" class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-8 rounded-full text-lg shadow-lg transition">Lets Explore</a>
+    </div>
+  </section>
+
+  {/* ABOUT US DINAMIS */}
+  <section id="about" class="py-20 px-4 bg-white">
+    <div class="container mx-auto text-center">
+      <h2 class="text-3xl font-bold mb-4 text-emerald-600">{about.title}</h2>
+      <p class="text-xl text-gray-600 mb-12 max-w-3xl mx-auto">{about.subtitle}</p>
+      <div class="flex flex-col md:flex-row items-center gap-12 text-left">
+        <div class="md:w-1/2">
+          <img src={about.image} alt="About Us Bali Adventure" class="w-full h-auto rounded-lg shadow-xl">
+        </div>
+        <div class="md:w-1/2 text-gray-700">
+          <h3 class="text-2xl font-semibold mb-4">{about.heading}</h3>
+          <p class="text-lg leading-relaxed mb-6">{about.description}</p>
+          <div class="space-y-3">
+            {about.points.map((point) => (
+              <div class="flex items-center"><span class="text-emerald-600 mr-2">✔</span> {point}</div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* GALLERY */}
+  <section id="gallery" class="py-20 px-4 bg-gray-50">
+    <div class="container mx-auto text-center">
+      <h2 class="text-3xl font-bold mb-4 text-emerald-600">Adventure Gallery</h2>
+      <p class="text-lg mb-12 text-gray-600">See the excitement. Every journey is a unique story.</p>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        {gallery.map((img) => (
+          <div class="aspect-square overflow-hidden rounded-lg shadow-md">
+            <img class="w-full h-full object-cover transition-transform hover:scale-105" src={img.url} alt={img.alt}/>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* TESTIMONIALS */}
+  <section id="testimonials" class="py-20 px-4 bg-white">
+      <div class="container mx-auto text-center">
+          <h2 class="text-3xl font-bold mb-4 text-emerald-600">What our adventurers say?</h2>
+          <p class="text-lg mb-12 text-gray-600">We are thrilled to be a part of their unforgettable Bali journeys.</p>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {testimonials.map((t) => (
+                <div class="bg-gray-50 p-8 rounded-lg shadow-lg flex flex-col justify-between">
+                  <p class="text-gray-600 italic mb-6">"{t.text}"</p>
+                  <div class="border-t pt-4 border-gray-200">
+                    <p class="font-bold text-gray-800">{t.name}</p>
+                    <p class="text-sm text-emerald-600 font-medium">{t.location}</p>
+                  </div>
+                </div>
+              ))}
+          </div>
+      </div>
+  </section>
+
+  {/* PACKAGES */}
+  <section id="package" class="py-20 px-4 bg-gray-50">
+    <div class="container mx-auto text-center">
+      <h2 class="text-3xl font-bold mb-4 text-emerald-600">Choose your Bali adventure</h2>
+      <p class="text-lg mb-12 text-gray-600">We offer premium packages for cycling, trekking, and rafting.</p>
+    </div>
+    <div class="container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {packages.map((pkg) => <PackageCard client:load packageData={pkg} />)}
+    </div>
+  </section>
+
+  {/* FAQ SECTION */}
+  <section id="faq" class="py-20 px-4 bg-white">
+    <div class="container mx-auto max-w-3xl">
+      <div class="text-center">
+        <h2 class="text-3xl font-bold mb-4 text-emerald-600">Frequently Asked Questions</h2>
+        <p class="text-lg mb-12 text-gray-600">Still not sure? Find your answer here.</p>
+      </div>
+      <div class="space-y-4">
+        {faqs.map((faq) => (
+          <details class="group bg-gray-50 p-6 rounded-lg shadow-sm border border-gray-100">
+            <summary class="font-semibold text-lg cursor-pointer flex justify-between items-center text-gray-800">
+              {faq.question}
+              <span class="transform transition-transform duration-300 group-open:rotate-180 text-emerald-600">▼</span>
+            </summary>
+            <p class="mt-4 text-gray-700 leading-relaxed">{faq.answer}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* CONTACT */}
+  <section id="address" class="py-20 px-4 bg-gray-100">
+    <div class="container mx-auto text-center">
+      <h2 class="text-3xl font-bold mb-4 text-emerald-600">Ready for an adventure?</h2>
+      <p class="text-lg mb-12 text-gray-600">Secure your spot now or contact us with any further questions.</p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center container mx-auto">
+      <div>
+        <div class="bg-white p-8 rounded-lg shadow-lg">
+          <h3 class="text-2xl font-semibold mb-4">Contact Information</h3>
+          <p class="mb-2"><strong>WhatsApp:</strong> <a href={`https://wa.me/${settings.whatsappNumber}`} target="_blank" class="text-emerald-600 hover:underline">+{settings.whatsappNumber}</a></p>
+          <p class="mb-2"><strong>Email:</strong> {settings.email}</p>
+          <p class="mb-4"><strong>Alamat:</strong> {settings.address}</p>
+          <a href={`https://wa.me/${settings.whatsappNumber}`} target="_blank" class="inline-block bg-orange-500 text-white font-bold px-6 py-3 rounded-full hover:bg-orange-600 shadow-md">Chat via WhatsApp</a>
+        </div>
+      </div>
+      <div class="bg-white shadow-lg rounded-lg overflow-hidden h-full">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126268.08253139366!2d115.1950348783451!3d-8.506856501755106!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd23d739f22c1dd%3A0x93035b4dd585d898!2sUbud%2C%20Gianyar%20Regency%2C%20Bali!5e0!3m2!1sen!2sid!4v1714470500123!5m2!1sen!2sid" width="100%" height="400" style="border:0;"></iframe>
+      </div>
+    </div>
+  </section>
+</MainLayout>
