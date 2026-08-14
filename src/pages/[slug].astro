@@ -3,6 +3,15 @@ import MainLayout from '../layouts/Layout.astro';
 import packagesData from '../data/singlepackage.json';
 import siteSettingsData from '../data/siteSettings.json';
 
+// INI DIA OBATNYA: Memberi tahu Astro daftar slug apa saja yang harus dibuatkan halaman statis
+export function getStaticPaths() {
+  return packagesData.map((pkg) => {
+    return {
+      params: { slug: pkg.slug },
+    };
+  });
+}
+
 const { slug } = Astro.params;
 const settings = siteSettingsData;
 
