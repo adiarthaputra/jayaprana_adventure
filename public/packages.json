@@ -1,0 +1,192 @@
+[
+  {
+    "slug": "cycling-adventure",
+    "title": "CYCLING BALI",
+    "image": "https://images.unsplash.com/photo-1541625602330-2277a4c46182?q=80&w=800&auto=format&fit=crop",
+    "itinerary": [
+      "08:00 - Pick up from your hotel",
+      "09:00 - Arrive at starting point & safety briefing",
+      "09:30 - Start cycling through rice terraces & villages",
+      "12:00 - Finish cycling & enjoy traditional lunch",
+      "13:30 - Drop off back to hotel"
+    ],
+    "whatToBring": [
+      "Comfortable shoes",
+      "Sunblock",
+      "Sunglasses",
+      "Extra cash"
+    ],
+    "moreInfoUrl": "/cycling-adventure",
+    "packages": [
+      {
+        "type": "Single",
+        "originalPrice": "IDR 650K",
+        "discountedPrice": "350K",
+        "details": [
+          "Price for 1 person",
+          "Professional local guide",
+          "Bicycle & safety gear included",
+          "Visit local villages & rice terraces",
+          "Get mineral water & snack",
+          "Traditional lunch included"
+        ],
+        "bookNowUrl": "https://wa.me/6281337626262?text=Halo,%20saya%20tertarik%20untuk%20memesan%20Cycling%20Adventure%20(Single%20Package)."
+      },
+      {
+        "type": "Couple",
+        "originalPrice": "IDR 1,300K",
+        "discountedPrice": "680K",
+        "details": [
+          "Price for 2 persons",
+          "Professional local guide",
+          "2 Bicycles & safety gear included",
+          "Visit local villages & rice terraces",
+          "Get mineral water & snack",
+          "Traditional lunch included"
+        ],
+        "bookNowUrl": "https://wa.me/6281337626262?text=Halo,%20saya%20tertarik%20untuk%20memesan%20Cycling%20Adventure%20(Couple%20Package)."
+      },
+      {
+        "type": "Group",
+        "originalPrice": "IDR 2,600K",
+        "discountedPrice": "1,300K",
+        "details": [
+          "Price for 4 persons",
+          "Professional local guide",
+          "4 Bicycles & safety gear included",
+          "Visit local villages & rice terraces",
+          "Get mineral water & snack",
+          "Traditional lunch included"
+        ],
+        "bookNowUrl": "https://wa.me/6281337626262?text=Halo,%20saya%20tertarik%20untuk%20memesan%20Cycling%20Adventure%20(Group%20Package)."
+      }
+    ]
+  },
+  {
+    "slug": "mount-batur-trekking",
+    "title": "MOUNT BATUR TREKKING",
+    "image": "https://images.unsplash.com/photo-1501555088652-021faa106b9b?q=80&w=800&auto=format&fit=crop",
+    "itinerary": [
+      "01:30 - Pick up from your hotel",
+      "03:30 - Arrive at starting point & briefing",
+      "04:00 - Start trekking to the summit",
+      "06:00 - Arrive at summit, enjoy sunrise & breakfast",
+      "09:00 - Finish trekking & drop off back to hotel"
+    ],
+    "whatToBring": [
+      "Jacket",
+      "Trekking shoes",
+      "Camera",
+      "Extra cash"
+    ],
+    "moreInfoUrl": "/mount-batur-trekking",
+    "packages": [
+      {
+        "type": "Single",
+        "originalPrice": "IDR 600K",
+        "discountedPrice": "450K",
+        "details": [
+          "Price for 1 person",
+          "Sunrise view at Mount Batur",
+          "Experienced trekking guide",
+          "Flashlight & trekking pole",
+          "Breakfast cooked on volcanic steam",
+          "Hot tea or coffee at the summit"
+        ],
+        "bookNowUrl": "https://wa.me/6281337626262?text=Halo,%20saya%20tertarik%20untuk%20memesan%20Mount%20Batur%20Trekking%20(Single%20Package)."
+      },
+      {
+        "type": "Couple",
+        "originalPrice": "IDR 1,200K",
+        "discountedPrice": "850K",
+        "details": [
+          "Price for 2 persons",
+          "Sunrise view at Mount Batur",
+          "Private experienced trekking guide",
+          "Flashlights & trekking poles",
+          "Breakfast cooked on volcanic steam",
+          "Hot tea or coffee at the summit"
+        ],
+        "bookNowUrl": "https://wa.me/6281337626262?text=Halo,%20saya%20tertarik%20untuk%20memesan%20Mount%20Batur%20Trekking%20(Couple%20Package)."
+      },
+      {
+        "type": "Group",
+        "originalPrice": "IDR 2,400K",
+        "discountedPrice": "1,600K",
+        "details": [
+          "Price for 4 persons",
+          "Sunrise view at Mount Batur",
+          "Private experienced trekking guide",
+          "Flashlights & trekking poles",
+          "Breakfast cooked on volcanic steam",
+          "Hot tea or coffee at the summit"
+        ],
+        "bookNowUrl": "https://wa.me/6281337626262?text=Halo,%20saya%20tertarik%20untuk%20memesan%20Mount%20Batur%20Trekking%20(Group%20Package)."
+      }
+    ]
+  },
+  {
+    "slug": "ayung-river-rafting",
+    "title": "AYUNG RIVER RAFTING",
+    "image": "https://images.unsplash.com/photo-1534150535316-2d3386be977c?q=80&w=800&auto=format&fit=crop",
+    "itinerary": [
+      "08:30 - Pick up from your hotel",
+      "10:00 - Arrive at starting point, briefing & gear up",
+      "10:30 - Start 2-hour rafting adventure",
+      "12:30 - Finish rafting, shower & change clothes",
+      "13:00 - Buffet lunch",
+      "14:00 - Drop off back to hotel"
+    ],
+    "whatToBring": [
+      "Change of clothes",
+      "Sandals/water shoes",
+      "Sunblock",
+      "Waterproof camera"
+    ],
+    "moreInfoUrl": "/ayung-river-rafting",
+    "packages": [
+      {
+        "type": "Single",
+        "originalPrice": "IDR 500K",
+        "discountedPrice": "405K",
+        "details": [
+          "Price for 1 person",
+          "2 hours of thrilling rafting",
+          "International standard safety equipment",
+          "Professional river guide",
+          "Shower facilities & towel provided",
+          "Buffet lunch included"
+        ],
+        "bookNowUrl": "https://wa.me/6281337626262?text=Halo,%20saya%20tertarik%20untuk%20memesan%20Ayung%20River%20Rafting%20(Single%20Package)."
+      },
+      {
+        "type": "Couple",
+        "originalPrice": "IDR 1,000K",
+        "discountedPrice": "780K",
+        "details": [
+          "Price for 2 persons",
+          "2 hours of thrilling rafting",
+          "International standard safety equipment",
+          "Professional river guide",
+          "Shower facilities & towels provided",
+          "Buffet lunch included"
+        ],
+        "bookNowUrl": "https://wa.me/6281337626262?text=Halo,%20saya%20tertarik%20untuk%20memesan%20Ayung%20River%20Rafting%20(Couple%20Package)."
+      },
+      {
+        "type": "Group",
+        "originalPrice": "IDR 2,000K",
+        "discountedPrice": "1,500K",
+        "details": [
+          "Price for 4 persons",
+          "2 hours of thrilling rafting",
+          "International standard safety equipment",
+          "Professional river guide",
+          "Shower facilities & towels provided",
+          "Buffet lunch included"
+        ],
+        "bookNowUrl": "https://wa.me/6281337626262?text=Halo,%20saya%20tertarik%20untuk%20memesan%20Ayung%20River%20Rafting%20(Group%20Package)."
+      }
+    ]
+  }
+]
