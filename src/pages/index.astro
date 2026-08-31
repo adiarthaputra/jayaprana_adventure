@@ -26,6 +26,16 @@ interface PackageData {
   packages: SubPackage[];
 }
 
+// Tambahkan definisi interface untuk SiteSettings agar address dikenali TypeScript
+interface SiteSettings {
+  heroTitle: string;
+  heroSubtitle: string;
+  heroBgImage: string;
+  whatsappNumber: string;
+  email: string;
+  address?: string;
+}
+
 // --- MAGIC HELPER UNTUK GITHUB PAGES ---
 const formatUrl = (url: string) => {
   if (!url) return '';
@@ -34,11 +44,10 @@ const formatUrl = (url: string) => {
   return `${base === '/' ? '' : base}${url.startsWith('/') ? url : '/' + url}`;
 };
 
-const settings = siteSettingsData;
+const settings = siteSettingsData as SiteSettings;
 const faqs = faqData;
 const testimonials = testimonialsData;
 
-// INI OBATNYA: Kita format 'moreInfoUrl' agar otomatis menyesuaikan dengan Base URL
 const packages = (JSON.parse(JSON.stringify(packagesData)) as PackageData[]).map(pkg => ({
   ...pkg,
   image: formatUrl(pkg.image),
