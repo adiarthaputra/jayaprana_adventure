@@ -7,79 +7,47 @@
     <meta charset="utf-8" />
     <title>Admin Dashboard - Bali Explorer</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <style>
-      * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
-      body { display: flex; height: 100vh; background-color: #f8fafc; color: #1e293b; overflow: hidden; }
-      aside { width: 260px; background-color: #1e293b; color: #fff; display: flex; flex-direction: column; z-index: 10; }
-      aside .brand { padding: 24px; border-bottom: 1px solid #334155; font-size: 1.25rem; font-weight: bold; }
-      aside nav { flex: 1; padding: 16px; display: flex; flex-direction: column; gap: 8px; overflow-y: auto; }
-      aside nav button { width: 100%; text-align: left; padding: 10px 16px; border-radius: 6px; background: transparent; color: #cbd5e1; border: none; cursor: pointer; font-size: 0.95rem; transition: 0.2s; }
-      aside nav button:hover, aside nav button.active { background-color: #059669; color: #fff; font-weight: 600; }
-      aside .footer { padding: 16px; border-top: 1px solid #334155; }
-      aside .footer a { display: block; text-align: center; padding: 10px; background: #dc2626; color: #fff; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 0.9rem; }
-      main { flex: 1; display: flex; flex-direction: column; overflow: hidden; background: #f1f5f9; }
-      header { background: #fff; padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e2e8f0; }
-      header h2 { font-size: 1.5rem; font-weight: 600; color: #334155; }
-      .header-actions { display: flex; align-items: center; gap: 12px; }
-      #btn-add { padding: 8px 16px; background: #059669; color: #fff; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 0.875rem; }
-      #github-token { border: 1px solid #cbd5e1; border-radius: 6px; padding: 8px 12px; font-size: 0.875rem; width: 250px; outline: none; }
-      .content-body { flex: 1; overflow-y: auto; padding: 24px; display: flex; flex-direction: column; gap: 16px; padding-bottom: 80px; }
-      #status-msg { padding: 12px; border-radius: 6px; font-size: 0.875rem; font-weight: 500; display: none; }
-      #status-msg.success { background: #d1fae5; color: #065f46; border: 1px solid #a7f3d0; display: block; }
-      #status-msg.error { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; display: block; }
-      .card { background: #fff; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0; margin-bottom: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
-      .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid #e2e8f0; }
-      .card-header h3 { font-size: 1.1rem; font-weight: bold; color: #334155; }
-      .btn-delete { padding: 4px 10px; background: #fee2e2; color: #dc2626; border: none; border-radius: 4px; font-size: 0.75rem; font-weight: 600; cursor: pointer; }
-      .grid-form { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-      .form-group { display: flex; flex-direction: column; gap: 4px; }
-      .form-group.full { grid-column: span 2; }
-      .form-group label { font-size: 0.75rem; font-weight: bold; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; }
-      .form-group input, .form-group textarea { width: 100%; border: 1px solid #cbd5e1; border-radius: 6px; padding: 10px; font-size: 0.875rem; outline: none; }
-      .form-group textarea { min-height: 100px; font-family: inherit; }
-      .form-group textarea.font-mono { font-family: monospace; }
-      .preview-img { margin-top: 8px; height: 96px; border-radius: 4px; object-fit: cover; border: 1px solid #cbd5e1; }
-      .footer-save { position: fixed; bottom: 0; right: 0; width: calc(100% - 260px); background: #fff; padding: 16px 24px; border-top: 1px solid #e2e8f0; display: flex; justify-content: flex-end; box-shadow: 0 -4px 6px -1px rgba(0,0,0,0.05); }
-      #btn-save { padding: 10px 24px; background: #2563eb; color: #fff; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-      #btn-save:disabled { background: #94a3b8; cursor: not-allowed; }
-    </style>
+    <!-- Tailwind CSS Play CDN versi aman -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   </head>
-  <body>
+  <body class="flex h-screen bg-slate-50 text-slate-800 overflow-hidden font-sans">
     
     <!-- Sidebar -->
-    <aside>
-      <div class="brand">Admin Panel</div>
-      <nav id="sidebar-nav">
-        <button data-tab="packages" class="active">📦 Tour Packages</button>
-        <button data-tab="settings">⚙️ Settings</button>
-        <button data-tab="gallery">🖼️ Gallery</button>
-        <button data-tab="faq">❓ FAQ</button>
-        <button data-tab="testimonials">💬 Testimonials</button>
-        <button data-tab="about">ℹ️ About Us</button>
+    <aside class="w-64 bg-slate-900 text-white flex flex-col z-10 shadow-xl">
+      <div class="p-6 border-b border-slate-800 text-xl font-bold tracking-wide flex items-center gap-2">
+        <span>⚡</span> Admin Panel
+      </div>
+      <nav id="sidebar-nav" class="flex-1 p-4 flex flex-col gap-2 overflow-y-auto">
+        <button data-tab="packages" class="w-full text-left px-4 py-2.5 rounded-lg bg-emerald-600 text-white font-semibold transition shadow-sm">📦 Tour Packages</button>
+        <button data-tab="settings" class="w-full text-left px-4 py-2.5 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition">⚙️ Settings</button>
+        <button data-tab="gallery" class="w-full text-left px-4 py-2.5 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition">🖼️ Gallery</button>
+        <button data-tab="faq" class="w-full text-left px-4 py-2.5 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition">❓ FAQ</button>
+        <button data-tab="testimonials" class="w-full text-left px-4 py-2.5 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition">💬 Testimonials</button>
+        <button data-tab="about" class="w-full text-left px-4 py-2.5 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition">ℹ️ About Us</button>
       </nav>
-      <div class="footer">
-        <a href="../">Kembali ke Website</a>
+      <div class="p-4 border-t border-slate-800">
+        <a href="../" class="block text-center py-2.5 bg-red-600 hover:bg-red-700 text-white rounded-lg font-semibold text-sm transition shadow">Kembali ke Website</a>
       </div>
     </aside>
 
     <!-- Main Content -->
-    <main>
-      <header>
-        <h2 id="page-title">Manage Tour Packages</h2>
-        <div class="header-actions">
-          <button id="btn-add" style="display:none;">+ Add New</button>
-          <input type="password" id="github-token" placeholder="GitHub Token (ghp_...)" />
+    <main class="flex-1 flex flex-col overflow-hidden bg-slate-100">
+      <header class="bg-white px-8 py-4 flex justify-between items-center border-b border-slate-200 shadow-sm">
+        <h2 id="page-title" class="text-xl font-bold text-slate-700">Manage Tour Packages</h2>
+        <div class="flex items-center gap-4">
+          <button id="btn-add" style="display:none;" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold rounded-lg shadow transition">+ Add New</button>
+          <input type="password" id="github-token" placeholder="GitHub Token (ghp_...)" class="border border-slate-300 rounded-lg px-3 py-2 text-sm w-64 focus:ring-2 focus:ring-emerald-500 outline-none transition" />
         </div>
       </header>
       
-      <div class="content-body">
-        <div id="status-msg"></div>
-        <div id="form-container">
-          <p style="color: #64748b;">Memuat data terbaru dari GitHub...</p>
+      <div class="flex-1 overflow-y-auto p-8 flex flex-col gap-6 pb-28">
+        <div id="status-msg" class="hidden p-4 rounded-lg text-sm font-medium"></div>
+        <div id="form-container" class="flex flex-col gap-4">
+          <p class="text-slate-500 italic">Memuat data terbaru langsung dari GitHub...</p>
         </div>
         
-        <div class="footer-save">
-          <button id="btn-save">💾 Simpan Perubahan ke GitHub</button>
+        <div class="fixed bottom-0 right-0 w-[calc(100%-16rem)] bg-white/90 backdrop-blur-md px-8 py-4 border-t border-slate-200 flex justify-end shadow-lg z-20">
+          <button id="btn-save" class="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 disabled:bg-slate-400 text-white font-semibold rounded-lg shadow-md transition flex items-center gap-2 cursor-pointer">💾 Simpan Perubahan ke GitHub</button>
         </div>
       </div>
     </main>
@@ -110,8 +78,10 @@
 
       function showStatus(message: string, type: 'success' | 'error' = 'success') {
         statusMsg.textContent = message;
-        statusMsg.className = type;
-        setTimeout(() => { statusMsg.className = ''; statusMsg.textContent = ''; }, 6000);
+        statusMsg.className = type === 'success' 
+          ? 'p-4 rounded-lg text-sm font-medium bg-emerald-100 text-emerald-800 border border-emerald-200 block' 
+          : 'p-4 rounded-lg text-sm font-medium bg-rose-100 text-rose-800 border border-rose-200 block';
+        setTimeout(() => { statusMsg.className = 'hidden'; statusMsg.textContent = ''; }, 6000);
       }
 
       function renderForm(data: any) {
@@ -126,23 +96,23 @@
 
         if (Array.isArray(data)) {
           if (data.length === 0) {
-            formContainer.innerHTML = '<p style="color: #64748b; font-style: italic;">Belum ada item. Klik "+ Add New" di atas.</p>';
+            formContainer.innerHTML = '<p class="text-slate-500 italic">Belum ada item. Klik "+ Add New" di atas.</p>';
             return;
           }
 
           data.forEach((item, index) => {
             const card = document.createElement('div');
-            card.className = 'card';
+            card.className = 'bg-white p-6 rounded-xl border border-slate-200 shadow-sm mb-4';
             
             const headerCard = document.createElement('div');
-            headerCard.className = 'card-header';
+            headerCard.className = 'flex justify-between items-center mb-4 pb-3 border-b border-slate-100';
             
             const identifier = item.title || item.question || item.name || item.alt || `Item #${index + 1}`;
-            headerCard.innerHTML = `<h3>${identifier}</h3>`;
+            headerCard.innerHTML = `<h3 class="font-bold text-slate-700 text-lg">${identifier}</h3>`;
             
             const btnDelete = document.createElement('button');
             btnDelete.textContent = '🗑️ Hapus Item';
-            btnDelete.className = 'btn-delete';
+            btnDelete.className = 'px-3 py-1 bg-rose-50 hover:bg-rose-100 text-rose-600 text-xs font-bold rounded transition cursor-pointer';
             btnDelete.onclick = () => {
               if (confirm(`Yakin ingin menghapus item ini?`)) {
                 currentData.splice(index, 1);
@@ -154,23 +124,24 @@
             card.appendChild(headerCard);
             
             const grid = document.createElement('div');
-            grid.className = 'grid-form';
+            grid.className = 'grid grid-cols-1 md:grid-cols-2 gap-4';
 
             for (const key in item) {
               if (key === 'packages') continue;
 
               const wrap = document.createElement('div');
               const isFullWidth = key === 'description' || key === 'text' || key === 'image' || key === 'url' || key.toLowerCase().includes('url') || Array.isArray(item[key]);
-              wrap.className = isFullWidth ? 'form-group full' : 'form-group';
+              wrap.className = isFullWidth ? 'col-span-1 md:col-span-2 flex flex-col gap-1.5' : 'flex flex-col gap-1.5';
 
               const label = document.createElement('label');
+              label.className = 'text-xs font-bold text-slate-500 uppercase tracking-wider';
               label.textContent = key === 'slug' ? 'Slug (Contoh: tour-baru tanpa spasi)' : key;
 
               let input: any;
 
               if (Array.isArray(item[key])) {
                 input = document.createElement('textarea');
-                input.className = 'font-mono';
+                input.className = 'w-full border border-slate-300 rounded-lg p-3 text-sm font-mono focus:ring-2 focus:ring-emerald-500 outline-none transition';
                 input.value = item[key].join('\n');
                 
                 input.addEventListener('input', (e: Event) => {
@@ -179,6 +150,7 @@
                 });
               } else if (typeof item[key] === 'string' && (item[key].length > 50 || key === 'description' || key === 'text')) {
                 input = document.createElement('textarea');
+                input.className = 'w-full border border-slate-300 rounded-lg p-3 text-sm focus:ring-2 focus:ring-emerald-500 outline-none transition min-h-[100px]';
                 input.value = item[key];
                 
                 input.addEventListener('input', (e: Event) => {
@@ -188,6 +160,7 @@
               } else {
                 input = document.createElement('input');
                 input.type = typeof item[key] === 'number' ? 'number' : 'text';
+                input.className = 'w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500 outline-none transition';
                 input.value = item[key];
 
                 input.addEventListener('input', (e: Event) => {
@@ -208,7 +181,7 @@
               if (key === 'image' || key === 'url' || key.toLowerCase().includes('url')) {
                  const preview = document.createElement('img');
                  preview.src = item[key];
-                 preview.className = 'preview-img';
+                 preview.className = 'mt-2 h-24 w-auto rounded-lg object-cover border border-slate-300 shadow-sm';
                  preview.onerror = () => preview.style.display = 'none';
                  wrap.appendChild(preview);
                  
@@ -227,22 +200,23 @@
         } else {
           // Object tunggal (Settings & About)
           const card = document.createElement('div');
-          card.className = 'card';
+          card.className = 'bg-white p-6 rounded-xl border border-slate-200 shadow-sm mb-4';
           const grid = document.createElement('div');
-          grid.className = 'grid-form';
+          grid.className = 'grid grid-cols-1 md:grid-cols-2 gap-4';
 
           for (const key in data) {
             const wrap = document.createElement('div');
             const isFullWidth = key === 'description' || key === 'subtitle' || key === 'image' || key === 'url' || key === 'heroSubtitle';
-            wrap.className = isFullWidth ? 'form-group full' : 'form-group';
+            wrap.className = isFullWidth ? 'col-span-1 md:col-span-2 flex flex-col gap-1.5' : 'flex flex-col gap-1.5';
 
             const label = document.createElement('label');
+            label.className = 'text-xs font-bold text-slate-500 uppercase tracking-wider';
             label.textContent = key;
 
             let input: any;
             if (Array.isArray(data[key])) {
               input = document.createElement('textarea');
-              input.className = 'font-mono';
+              input.className = 'w-full border border-slate-300 rounded-lg p-3 text-sm font-mono focus:ring-2 focus:ring-emerald-500 outline-none transition';
               input.value = data[key].join('\n');
               input.addEventListener('input', (e: Event) => {
                 const target = e.target as HTMLTextAreaElement;
@@ -250,6 +224,7 @@
               });
             } else if (typeof data[key] === 'string' && data[key].length > 50) {
               input = document.createElement('textarea');
+              input.className = 'w-full border border-slate-300 rounded-lg p-3 text-sm focus:ring-2 focus:ring-emerald-500 outline-none transition min-h-[100px]';
               input.value = data[key];
               input.addEventListener('input', (e: Event) => {
                 const target = e.target as HTMLTextAreaElement;
@@ -258,6 +233,7 @@
             } else {
               input = document.createElement('input');
               input.type = typeof data[key] === 'number' ? 'number' : 'text';
+              input.className = 'w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500 outline-none transition';
               input.value = data[key];
               input.addEventListener('input', (e: Event) => {
                 const target = e.target as HTMLInputElement;
@@ -273,7 +249,7 @@
             if (key === 'image' || key === 'url' || key.toLowerCase().includes('url')) {
                const preview = document.createElement('img');
                preview.src = data[key];
-               preview.className = 'preview-img';
+               preview.className = 'mt-2 h-24 w-auto rounded-lg object-cover border border-slate-300 shadow-sm';
                preview.onerror = () => preview.style.display = 'none';
                wrap.appendChild(preview);
                
@@ -336,7 +312,7 @@
       async function loadData(tab: string) {
         currentTab = tab;
         pageTitle.textContent = `Manage ${tab.charAt(0).toUpperCase() + tab.slice(1)}`;
-        formContainer.innerHTML = '<p style="color: #64748b;">Memuat data terbaru langsung dari GitHub...</p>';
+        formContainer.innerHTML = '<p class="text-slate-500 italic">Memuat data terbaru langsung dari GitHub...</p>';
         btnSave.disabled = true;
         
         let targetFileJson = tab;
@@ -357,13 +333,12 @@
           const fileData = await res.json();
           currentSha = fileData.sha;
 
-          // Decode base64 dari GitHub API ke string JSON
           const jsonString = decodeURIComponent(escape(atob(fileData.content)));
           const data = JSON.parse(jsonString);
 
           renderForm(data);
         } catch (err: any) {
-          formContainer.innerHTML = `<p style="color: #dc2626;">Gagal memuat data: ${err.message}. Pastikan token GitHub terisi dengan benar di kanan atas.</p>`;
+          formContainer.innerHTML = `<p class="text-rose-600 font-medium">Gagal memuat data: ${err.message}. Pastikan token GitHub terisi dengan benar di kanan atas.</p>`;
         } finally {
           btnSave.disabled = false;
         }
@@ -371,9 +346,11 @@
 
       tabs.forEach(btn => {
         btn.addEventListener('click', (e: Event) => {
-          tabs.forEach(t => t.classList.remove('active'));
+          tabs.forEach(t => {
+            t.className = 'w-full text-left px-4 py-2.5 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition';
+          });
           const target = e.target as HTMLButtonElement;
-          target.classList.add('active');
+          target.className = 'w-full text-left px-4 py-2.5 rounded-lg bg-emerald-600 text-white font-semibold transition shadow-sm';
           
           if (target.dataset.tab) {
             loadData(target.dataset.tab);
@@ -418,7 +395,6 @@
             throw new Error(errData.message || 'Gagal menyimpan file.');
           }
 
-          // Update SHA terbaru setelah berhasil simpan
           const resNew = await fetch(apiUrl, { headers: { 'Authorization': `token ${token}` } });
           if (resNew.ok) {
             const newData = await resNew.json();
