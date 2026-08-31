@@ -1,7 +1,7 @@
 [
   {
     "slug": "cycling-adventure",
-    "title": "CYCLING ADVENTURE",
+    "title": "CYCLING ",
     "image": "https://images.unsplash.com/photo-1541625602330-2277a4c46182?q=80&w=800&auto=format&fit=crop",
     "itinerary": [
       "08:00 - Pick up from your hotel",
@@ -186,32 +186,6 @@
           "Buffet lunch included"
         ],
         "bookNowUrl": "https://wa.me/6281337626262?text=Halo,%20saya%20tertarik%20untuk%20memesan%20Ayung%20River%20Rafting%20(Group%20Package)."
-      }
-    ]
-  },
-  {
-    "slug": "paket-wisata-baru",
-    "title": "PAKET WISATA BARU",
-    "image": "https://images.unsplash.com/photo-1541625602330-2277a4c46182?q=80&w=800&auto=format&fit=crop",
-    "itinerary": [
-      "08:00 - Penjemputan di hotel",
-      "09:00 - Tiba di lokasi & persiapan"
-    ],
-    "whatToBring": [
-      "Pakaian ganti",
-      "Kamera"
-    ],
-    "moreInfoUrl": "/paket-wisata-baru",
-    "packages": [
-      {
-        "type": "Single",
-        "originalPrice": "IDR 500K",
-        "discountedPrice": "350K",
-        "details": [
-          "Fasilitas 1 orang",
-          "Guide profesional"
-        ],
-        "bookNowUrl": "https://wa.me/6281337626262?text=Halo,%20saya%20tertarik."
       }
     ]
   }
