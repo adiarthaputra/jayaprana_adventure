@@ -323,16 +323,14 @@
           if (tab === 'packages') jsonFile = 'singlepackage';
           if (tab === 'settings') jsonFile = 'siteSettings';
 
-          // Mengambil dari folder public/data/ agar aman untuk GitHub Pages (Static)
-          const isGitHub = window.location.hostname.includes('github.io');
-          const basePath = isGitHub ? '/jayaprana_adventure' : '';
+          const basePath = window.location.hostname.includes('github.io') ? '/jayaprana_adventure' : '';
           const res = await fetch(`${basePath}/data/${jsonFile}.json?t=${Date.now()}`);
           
-          if (!res.ok) throw new Error('Gagal mengambil file JSON');
+          if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
           const data = await res.json();
           renderForm(data);
         } catch (err) {
-          formContainer.innerHTML = `<p class="text-red-500">Gagal memuat data untuk tab ini. Pastikan file JSON tersedia di folder public/data/.</p>`;
+          formContainer.innerHTML = `<p class="text-red-500">Gagal memuat data untuk tab ini. Pastikan file JSON ada di folder public/data/.</p>`;
         } finally {
           btnSave.disabled = false;
         }
@@ -367,7 +365,6 @@
         if (currentTab === 'packages') targetFileJson = 'singlepackage';
         if (currentTab === 'settings') targetFileJson = 'siteSettings';
 
-        // Catatan: File JSON utama kita simpan kembali ke folder src/data/ di GitHub supaya saat website di-build ulang, kodenya tetap sinkron
         const filePath = `src/data/${targetFileJson}.json`; 
         const apiUrl = `https://api.github.com/repos/${githubOwner}/${githubRepo}/contents/${filePath}`;
 
