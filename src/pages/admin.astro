@@ -8,7 +8,6 @@
     <title>Admin Dashboard - Bali Explorer</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <style>
-      /* Styling mandiri tanpa bergantung pada CDN eksternal */
       * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
       body { display: flex; height: 100vh; background-color: #f8fafc; color: #1e293b; overflow: hidden; }
       aside { width: 260px; background-color: #1e293b; color: #fff; display: flex; flex-direction: column; z-index: 10; }
@@ -340,18 +339,19 @@
         btnSave.disabled = true;
         
         try {
+          // PEMETAAN NAMA TAB ADMIN KE NAMA FILE JSON ASLI DI FOLDER PUBLIC
           let jsonFile = tab;
           if (tab === 'packages') jsonFile = 'singlepackage';
           if (tab === 'settings') jsonFile = 'siteSettings';
 
           const basePath = window.location.hostname.includes('github.io') ? '/jayaprana_adventure' : '';
-          const res = await fetch(`${basePath}/data/${jsonFile}.json?t=${Date.now()}`);
+          const res = await fetch(`${basePath}/${jsonFile}.json?t=${Date.now()}`);
           
           if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
           const data = await res.json();
           renderForm(data);
         } catch (err) {
-          formContainer.innerHTML = `<p style="color: #dc2626;">Gagal memuat data untuk tab ini. Pastikan file JSON ada di folder public/data/.</p>`;
+          formContainer.innerHTML = `<p style="color: #dc2626;">Gagal memuat data untuk tab ini. Pastikan file JSON ada di folder public/.</p>`;
         } finally {
           btnSave.disabled = false;
         }
