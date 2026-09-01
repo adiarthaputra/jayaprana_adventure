@@ -7,11 +7,26 @@
     <meta charset="utf-8" />
     <title>Admin Dashboard - Bali Explorer</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- Tailwind CSS Play CDN versi aman -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   </head>
   <body class="flex h-screen bg-slate-50 text-slate-800 overflow-hidden font-sans">
     
+    <!-- Modal Login / Input Token jika belum autentikasi -->
+    <div id="auth-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+      <div class="bg-white rounded-2xl p-8 max-w-md w-full shadow-2xl border border-slate-200 flex flex-col gap-4">
+        <div class="text-center">
+          <span class="text-3xl">🔐</span>
+          <h3 class="text-xl font-bold text-slate-800 mt-2">Autentikasi Admin</h3>
+          <p class="text-sm text-slate-500 mt-1">Masukkan GitHub Personal Access Token (PAT) untuk mengakses panel admin.</p>
+        </div>
+        <div class="flex flex-col gap-2">
+          <input type="password" id="modal-token" placeholder="ghp_..." class="w-full border border-slate-300 rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-emerald-500 outline-none transition" />
+          <button id="btn-login" class="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-lg shadow transition cursor-pointer">Masuk ke Dashboard</button>
+        </div>
+        <p id="login-error" class="text-xs text-rose-600 text-center hidden font-medium"></p>
+      </div>
+    </div>
+
     <!-- Sidebar -->
     <aside class="w-64 bg-slate-900 text-white flex flex-col z-10 shadow-xl">
       <div class="p-6 border-b border-slate-800 text-xl font-bold tracking-wide flex items-center gap-2">
@@ -36,7 +51,7 @@
         <h2 id="page-title" class="text-xl font-bold text-slate-700">Manage Tour Packages</h2>
         <div class="flex items-center gap-4">
           <button id="btn-add" style="display:none;" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold rounded-lg shadow transition">+ Add New</button>
-          <input type="password" id="github-token" placeholder="GitHub Token (ghp_...)" class="border border-slate-300 rounded-lg px-3 py-2 text-sm w-64 focus:ring-2 focus:ring-emerald-500 outline-none transition" />
+          <button id="btn-logout" class="px-3 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs font-bold rounded-lg transition cursor-pointer">🔒 Logout</button>
         </div>
       </header>
       
@@ -58,22 +73,66 @@
       const formContainer = document.getElementById('form-container') as HTMLDivElement;
       const btnSave = document.getElementById('btn-save') as HTMLButtonElement;
       const btnAdd = document.getElementById('btn-add') as HTMLButtonElement;
-      const tokenInput = document.getElementById('github-token') as HTMLInputElement;
       const statusMsg = document.getElementById('status-msg') as HTMLDivElement;
+      
+      const authModal = document.getElementById('auth-modal') as HTMLDivElement;
+      const modalTokenInput = document.getElementById('modal-token') as HTMLInputElement;
+      const btnLogin = document.getElementById('btn-login') as HTMLButtonElement;
+      const loginError = document.getElementById('login-error') as HTMLParagraphElement;
+      const btnLogout = document.getElementById('btn-logout') as HTMLButtonElement;
 
       let currentTab = 'packages';
       let currentData: any = null;
       let currentSha: string = '';
+      let githubToken = sessionStorage.getItem('admin_session_token') || '';
 
       const githubOwner = 'adiarthaputra';
       const githubRepo = 'jayaprana_adventure';
 
-      if (localStorage.getItem('gh_token')) {
-        tokenInput.value = localStorage.getItem('gh_token') || '';
+      if (githubToken) {
+        authModal.classList.add('hidden');
+        loadData(currentTab);
+      } else {
+        authModal.classList.remove('hidden');
       }
-      tokenInput.addEventListener('input', (e: Event) => {
-        const target = e.target as HTMLInputElement;
-        localStorage.setItem('gh_token', target.value);
+
+      btnLogin.addEventListener('click', async () => {
+        const token = modalTokenInput.value.trim();
+        if (!token) {
+          loginError.textContent = 'Token tidak boleh kosong!';
+          loginError.classList.remove('hidden');
+          return;
+        }
+
+        btnLogin.textContent = "Memverifikasi...";
+        btnLogin.setAttribute('disabled', 'true');
+
+        try {
+          const res = await fetch(`https://api.github.com/repos/${githubOwner}/${githubRepo}`, {
+            headers: { 'Authorization': `token ${token}` }
+          });
+
+          if (!res.ok) throw new Error('Token tidak valid atau tidak memiliki akses ke repository!');
+
+          sessionStorage.setItem('admin_session_token', token);
+          githubToken = token;
+          authModal.classList.add('hidden');
+          loginError.classList.add('hidden');
+          modalTokenInput.value = '';
+          
+          loadData(currentTab);
+        } catch (err: any) {
+          loginError.textContent = err.message;
+          loginError.classList.remove('hidden');
+        } finally {
+          btnLogin.textContent = "Masuk ke Dashboard";
+          btnLogin.removeAttribute('disabled');
+        }
+      });
+
+      btnLogout.addEventListener('click', () => {
+        sessionStorage.removeItem('admin_session_token');
+        location.reload();
       });
 
       function showStatus(message: string, type: 'success' | 'error' = 'success') {
@@ -198,7 +257,6 @@
             formContainer.appendChild(card);
           });
         } else {
-          // Object tunggal (Settings & About)
           const card = document.createElement('div');
           card.className = 'bg-white p-6 rounded-xl border border-slate-200 shadow-sm mb-4';
           const grid = document.createElement('div');
@@ -321,14 +379,13 @@
 
         const filePath = `src/data/${targetFileJson}.json`;
         const apiUrl = `https://api.github.com/repos/${githubOwner}/${githubRepo}/contents/${filePath}`;
-        const token = tokenInput.value;
 
         try {
           const headers: any = {};
-          if (token) headers['Authorization'] = `token ${token}`;
+          if (githubToken) headers['Authorization'] = `token ${githubToken}`;
 
           const res = await fetch(apiUrl, { headers });
-          if (!res.ok) throw new Error('Gagal mengambil data dari GitHub API. Cek token jika repository privat.');
+          if (!res.ok) throw new Error('Gagal mengambil data dari GitHub API. Token salah atau kadaluarsa.');
           
           const fileData = await res.json();
           currentSha = fileData.sha;
@@ -338,7 +395,7 @@
 
           renderForm(data);
         } catch (err: any) {
-          formContainer.innerHTML = `<p class="text-rose-600 font-medium">Gagal memuat data: ${err.message}. Pastikan token GitHub terisi dengan benar di kanan atas.</p>`;
+          formContainer.innerHTML = `<p class="text-rose-600 font-medium">Gagal memuat data: ${err.message}. Silakan coba Logout dan Login ulang.</p>`;
         } finally {
           btnSave.disabled = false;
         }
@@ -359,8 +416,7 @@
       });
 
       btnSave.addEventListener('click', async () => {
-        const token = tokenInput.value;
-        if (!token) return showStatus('Error: Token GitHub wajib diisi untuk menyimpan!', 'error');
+        if (!githubToken) return showStatus('Error: Sesi habis, silakan login ulang!', 'error');
         if (!currentData) return showStatus('Data masih kosong.', 'error');
 
         btnSave.textContent = "⏳ Menyimpan ke GitHub...";
@@ -380,7 +436,7 @@
           const putRes = await fetch(apiUrl, {
             method: 'PUT',
             headers: {
-              'Authorization': `token ${token}`,
+              'Authorization': `token ${githubToken}`,
               'Content-Type': 'application/json'
             },
             body: JSON.stringify({
@@ -395,7 +451,7 @@
             throw new Error(errData.message || 'Gagal menyimpan file.');
           }
 
-          const resNew = await fetch(apiUrl, { headers: { 'Authorization': `token ${token}` } });
+          const resNew = await fetch(apiUrl, { headers: { 'Authorization': `token ${githubToken}` } });
           if (resNew.ok) {
             const newData = await resNew.json();
             currentSha = newData.sha;
@@ -410,8 +466,6 @@
           btnSave.disabled = false;
         }
       });
-
-      loadData(currentTab);
     </script>
   </body>
 </html>
