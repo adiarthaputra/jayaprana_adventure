@@ -12,8 +12,8 @@
   <body class="flex h-screen bg-slate-50 text-slate-800 overflow-hidden font-sans">
     
     <!-- Modal Login / Input Token jika belum autentikasi -->
-    <div id="auth-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div class="bg-white rounded-2xl p-8 max-w-md w-full shadow-2xl border border-slate-200 flex flex-col gap-4">
+    <div id="auth-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-[60] flex items-center justify-center p-4">
+      <div class="bg-white rounded-2xl p-6 md:p-8 max-w-md w-full shadow-2xl border border-slate-200 flex flex-col gap-4">
         <div class="text-center">
           <span class="text-3xl">🔐</span>
           <h3 class="text-xl font-bold text-slate-800 mt-2">Autentikasi Admin</h3>
@@ -27,10 +27,17 @@
       </div>
     </div>
 
-    <!-- Sidebar -->
-    <aside class="w-64 bg-slate-900 text-white flex flex-col z-10 shadow-xl">
-      <div class="p-6 border-b border-slate-800 text-xl font-bold tracking-wide flex items-center gap-2">
-        <span>⚡</span> Admin Panel
+    <!-- Overlay untuk Sidebar di Mobile -->
+    <div id="sidebar-overlay" class="fixed inset-0 bg-slate-900/50 z-40 hidden md:hidden transition-opacity"></div>
+
+    <!-- Sidebar (Responsif Off-Canvas) -->
+    <aside id="sidebar" class="w-64 bg-slate-900 text-white flex flex-col z-50 shadow-xl fixed inset-y-0 left-0 transform -translate-x-full md:relative md:translate-x-0 transition-transform duration-300 ease-in-out">
+      <div class="p-6 border-b border-slate-800 text-xl font-bold tracking-wide flex justify-between items-center gap-2">
+        <div class="flex items-center gap-2">
+          <span>⚡</span> Admin Panel
+        </div>
+        <!-- Tombol Tutup Sidebar (Hanya di Mobile) -->
+        <button id="btn-close-sidebar" class="md:hidden text-slate-400 hover:text-white text-2xl font-bold p-1 leading-none">&times;</button>
       </div>
       <nav id="sidebar-nav" class="flex-1 p-4 flex flex-col gap-2 overflow-y-auto">
         <button data-tab="packages" class="w-full text-left px-4 py-2.5 rounded-lg bg-emerald-600 text-white font-semibold transition shadow-sm">📦 Tour Packages</button>
@@ -47,27 +54,35 @@
 
     <!-- Main Content -->
     <main class="flex-1 flex flex-col overflow-hidden bg-slate-100">
-      <header class="bg-white px-8 py-4 flex justify-between items-center border-b border-slate-200 shadow-sm">
-        <h2 id="page-title" class="text-xl font-bold text-slate-700">Manage Tour Packages</h2>
-        <div class="flex items-center gap-4">
-          <button id="btn-add" style="display:none;" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold rounded-lg shadow transition">+ Add New</button>
-          <button id="btn-logout" class="px-3 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs font-bold rounded-lg transition cursor-pointer">🔒 Logout</button>
+      <header class="bg-white px-4 md:px-8 py-4 flex justify-between items-center border-b border-slate-200 shadow-sm relative z-20">
+        <div class="flex items-center gap-3">
+          <!-- Tombol Buka Sidebar (Hanya di Mobile) -->
+          <button id="btn-open-sidebar" class="md:hidden p-2 rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 transition">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+          </button>
+          <h2 id="page-title" class="text-lg md:text-xl font-bold text-slate-700 truncate">Manage Tour Packages</h2>
+        </div>
+        <div class="flex items-center gap-2 md:gap-4">
+          <button id="btn-add" style="display:none;" class="px-3 py-2 md:px-4 bg-emerald-600 hover:bg-emerald-700 text-white text-xs md:text-sm font-semibold rounded-lg shadow transition">+ Add New</button>
+          <button id="btn-logout" class="px-3 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs md:text-sm font-bold rounded-lg transition cursor-pointer">🔒 Logout</button>
         </div>
       </header>
       
-      <div class="flex-1 overflow-y-auto p-8 flex flex-col gap-6 pb-28">
+      <div class="flex-1 overflow-y-auto p-4 md:p-8 flex flex-col gap-6 pb-28">
         <div id="status-msg" class="hidden p-4 rounded-lg text-sm font-medium"></div>
         <div id="form-container" class="flex flex-col gap-4">
           <p class="text-slate-500 italic">Memuat data terbaru langsung dari GitHub...</p>
         </div>
         
-        <div class="fixed bottom-0 right-0 w-[calc(100%-16rem)] bg-white/90 backdrop-blur-md px-8 py-4 border-t border-slate-200 flex justify-end shadow-lg z-20">
-          <button id="btn-save" class="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 disabled:bg-slate-400 text-white font-semibold rounded-lg shadow-md transition flex items-center gap-2 cursor-pointer">💾 Simpan Perubahan ke GitHub</button>
+        <!-- Footer Tombol Simpan yang Responsif -->
+        <div class="fixed bottom-0 right-0 w-full md:w-[calc(100%-16rem)] bg-white/90 backdrop-blur-md px-4 md:px-8 py-4 border-t border-slate-200 flex justify-end shadow-lg z-30">
+          <button id="btn-save" class="w-full md:w-auto px-6 py-2.5 bg-blue-600 hover:bg-blue-700 disabled:bg-slate-400 text-white font-semibold rounded-lg shadow-md transition flex justify-center items-center gap-2 cursor-pointer">💾 Simpan Perubahan</button>
         </div>
       </div>
     </main>
 
     <script>
+      // Elemen DOM
       const tabs = document.querySelectorAll('#sidebar-nav button') as NodeListOf<HTMLButtonElement>;
       const pageTitle = document.getElementById('page-title') as HTMLHeadingElement;
       const formContainer = document.getElementById('form-container') as HTMLDivElement;
@@ -80,6 +95,21 @@
       const btnLogin = document.getElementById('btn-login') as HTMLButtonElement;
       const loginError = document.getElementById('login-error') as HTMLParagraphElement;
       const btnLogout = document.getElementById('btn-logout') as HTMLButtonElement;
+
+      // Sidebar Responsif Kontrol
+      const sidebar = document.getElementById('sidebar') as HTMLElement;
+      const sidebarOverlay = document.getElementById('sidebar-overlay') as HTMLDivElement;
+      const btnOpenSidebar = document.getElementById('btn-open-sidebar') as HTMLButtonElement;
+      const btnCloseSidebar = document.getElementById('btn-close-sidebar') as HTMLButtonElement;
+
+      function toggleSidebar() {
+        sidebar.classList.toggle('-translate-x-full');
+        sidebarOverlay.classList.toggle('hidden');
+      }
+
+      btnOpenSidebar.addEventListener('click', toggleSidebar);
+      btnCloseSidebar.addEventListener('click', toggleSidebar);
+      sidebarOverlay.addEventListener('click', toggleSidebar);
 
       let currentTab = 'packages';
       let currentData: any = null;
@@ -161,17 +191,17 @@
 
           data.forEach((item, index) => {
             const card = document.createElement('div');
-            card.className = 'bg-white p-6 rounded-xl border border-slate-200 shadow-sm mb-4';
+            card.className = 'bg-white p-4 md:p-6 rounded-xl border border-slate-200 shadow-sm mb-4 overflow-hidden';
             
             const headerCard = document.createElement('div');
-            headerCard.className = 'flex justify-between items-center mb-4 pb-3 border-b border-slate-100';
+            headerCard.className = 'flex justify-between items-center mb-4 pb-3 border-b border-slate-100 gap-2';
             
             const identifier = item.title || item.question || item.name || item.alt || `Item #${index + 1}`;
-            headerCard.innerHTML = `<h3 class="font-bold text-slate-700 text-lg">${identifier}</h3>`;
+            headerCard.innerHTML = `<h3 class="font-bold text-slate-700 text-base md:text-lg truncate">${identifier}</h3>`;
             
             const btnDelete = document.createElement('button');
-            btnDelete.textContent = '🗑️ Hapus Item';
-            btnDelete.className = 'px-3 py-1 bg-rose-50 hover:bg-rose-100 text-rose-600 text-xs font-bold rounded transition cursor-pointer';
+            btnDelete.textContent = '🗑️ Hapus';
+            btnDelete.className = 'shrink-0 px-2 md:px-3 py-1 bg-rose-50 hover:bg-rose-100 text-rose-600 text-xs font-bold rounded transition cursor-pointer';
             btnDelete.onclick = () => {
               if (confirm(`Yakin ingin menghapus item ini?`)) {
                 currentData.splice(index, 1);
@@ -258,7 +288,7 @@
           });
         } else {
           const card = document.createElement('div');
-          card.className = 'bg-white p-6 rounded-xl border border-slate-200 shadow-sm mb-4';
+          card.className = 'bg-white p-4 md:p-6 rounded-xl border border-slate-200 shadow-sm mb-4 overflow-hidden';
           const grid = document.createElement('div');
           grid.className = 'grid grid-cols-1 md:grid-cols-2 gap-4';
 
@@ -364,7 +394,7 @@
         }
 
         renderForm(currentData);
-        showStatus('Item baru berhasil ditambahkan! Jangan lupa klik Simpan.', 'success');
+        showStatus('Item baru ditambahkan! Jangan lupa klik Simpan.', 'success');
       });
 
       async function loadData(tab: string) {
@@ -411,6 +441,10 @@
           
           if (target.dataset.tab) {
             loadData(target.dataset.tab);
+            // Tutup sidebar otomatis di mobile setelah pindah tab
+            if (window.innerWidth < 768) {
+              toggleSidebar();
+            }
           }
         });
       });
@@ -419,7 +453,7 @@
         if (!githubToken) return showStatus('Error: Sesi habis, silakan login ulang!', 'error');
         if (!currentData) return showStatus('Data masih kosong.', 'error');
 
-        btnSave.textContent = "⏳ Menyimpan ke GitHub...";
+        btnSave.innerHTML = `⏳ Menyimpan...`;
         btnSave.disabled = true;
 
         let targetFileJson = currentTab;
@@ -457,12 +491,12 @@
             currentSha = newData.sha;
           }
 
-          showStatus(`Sukses! Data ${currentTab} berhasil disimpan ke GitHub.`, 'success');
+          showStatus(`Sukses! Data ${currentTab} tersimpan.`, 'success');
 
         } catch (err: any) { 
           showStatus(err.message, 'error');
         } finally {
-          btnSave.textContent = "💾 Simpan Perubahan ke GitHub";
+          btnSave.innerHTML = `💾 Simpan Perubahan`;
           btnSave.disabled = false;
         }
       });

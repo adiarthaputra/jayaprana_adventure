@@ -26,7 +26,6 @@ interface PackageData {
   packages: SubPackage[];
 }
 
-// Tambahkan definisi interface untuk SiteSettings agar address dikenali TypeScript
 interface SiteSettings {
   heroTitle: string;
   heroSubtitle: string;
@@ -77,28 +76,31 @@ const pageDescription = settings.heroSubtitle;
   {/* HERO */}
   <section id="home" class="min-h-screen flex items-center justify-center relative" style={`background-image: url('${formatUrl(settings.heroBgImage)}'); background-size: cover; background-position: center;`}>
     <div class="absolute inset-0 bg-black opacity-60"></div>
-    <div class="text-center relative z-10 text-white p-4 max-w-4xl mx-auto">
-        <h1 class="text-4xl md:text-6xl font-bold mb-4 leading-tight">{settings.heroTitle}</h1>
-        <p class="text-lg md:text-xl mb-8 text-gray-200">{settings.heroSubtitle}</p>
-        <a href="#package" class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-8 rounded-full text-lg shadow-lg transition">Lets Explore</a>
+    <div class="text-center relative z-10 text-white px-6 py-20 max-w-4xl mx-auto">
+        <h1 class="text-4xl md:text-6xl font-bold mb-4 md:mb-6 leading-tight">{settings.heroTitle}</h1>
+        <p class="text-base md:text-xl mb-8 md:mb-10 text-gray-200">{settings.heroSubtitle}</p>
+        <a href="#package" class="inline-block bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-8 rounded-full text-base md:text-lg shadow-lg transition transform hover:-translate-y-1">Lets Explore</a>
     </div>
   </section>
 
-  {/* ABOUT US DINAMIS */}
-  <section id="about" class="py-20 px-4 bg-white">
+  {/* ABOUT US */}
+  <section id="about" class="py-16 md:py-24 px-6 md:px-12 bg-white">
     <div class="container mx-auto text-center">
-      <h2 class="text-3xl font-bold mb-4 text-emerald-600">{about.title}</h2>
-      <p class="text-xl text-gray-600 mb-12 max-w-3xl mx-auto">{about.subtitle}</p>
-      <div class="flex flex-col md:flex-row items-center gap-12 text-left">
-        <div class="md:w-1/2">
-          <img src={about.image} alt="About Us Bali Adventure" class="w-full h-auto rounded-lg shadow-xl">
+      <h2 class="text-3xl md:text-4xl font-bold mb-4 text-emerald-600">{about.title}</h2>
+      <p class="text-lg md:text-xl text-gray-600 mb-10 md:mb-16 max-w-3xl mx-auto">{about.subtitle}</p>
+      <div class="flex flex-col md:flex-row items-center gap-8 md:gap-16 text-left">
+        <div class="w-full md:w-1/2">
+          <img src={about.image} alt="About Us Bali Adventure" class="w-full h-auto rounded-2xl shadow-xl object-cover">
         </div>
-        <div class="md:w-1/2 text-gray-700">
-          <h3 class="text-2xl font-semibold mb-4">{about.heading}</h3>
-          <p class="text-lg leading-relaxed mb-6">{about.description}</p>
-          <div class="space-y-3">
+        <div class="w-full md:w-1/2 text-gray-700">
+          <h3 class="text-2xl md:text-3xl font-semibold mb-4 md:mb-6">{about.heading}</h3>
+          <p class="text-base md:text-lg leading-relaxed mb-6 md:mb-8">{about.description}</p>
+          <div class="space-y-4">
             {about.points.map((point) => (
-              <div class="flex items-center"><span class="text-emerald-600 mr-2">✔</span> {point}</div>
+              <div class="flex items-start">
+                <span class="text-emerald-600 mr-3 mt-1 text-lg">✔</span> 
+                <span class="text-base md:text-lg">{point}</span>
+              </div>
             ))}
           </div>
         </div>
@@ -107,14 +109,14 @@ const pageDescription = settings.heroSubtitle;
   </section>
 
   {/* GALLERY */}
-  <section id="gallery" class="py-20 px-4 bg-gray-50">
+  <section id="gallery" class="py-16 md:py-24 px-6 md:px-12 bg-gray-50">
     <div class="container mx-auto text-center">
-      <h2 class="text-3xl font-bold mb-4 text-emerald-600">Adventure Gallery</h2>
-      <p class="text-lg mb-12 text-gray-600">See the excitement. Every journey is a unique story.</p>
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <h2 class="text-3xl md:text-4xl font-bold mb-4 text-emerald-600">Adventure Gallery</h2>
+      <p class="text-lg text-gray-600 mb-10 md:mb-16">See the excitement. Every journey is a unique story.</p>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6">
         {gallery.map((img) => (
-          <div class="aspect-square overflow-hidden rounded-lg shadow-md">
-            <img class="w-full h-full object-cover transition-transform hover:scale-105" src={img.url} alt={img.alt}/>
+          <div class="aspect-square overflow-hidden rounded-xl shadow-md group">
+            <img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src={img.url} alt={img.alt}/>
           </div>
         ))}
       </div>
@@ -122,16 +124,16 @@ const pageDescription = settings.heroSubtitle;
   </section>
 
   {/* TESTIMONIALS */}
-  <section id="testimonials" class="py-20 px-4 bg-white">
+  <section id="testimonials" class="py-16 md:py-24 px-6 md:px-12 bg-white">
       <div class="container mx-auto text-center">
-          <h2 class="text-3xl font-bold mb-4 text-emerald-600">What our adventurers say?</h2>
-          <p class="text-lg mb-12 text-gray-600">We are thrilled to be a part of their unforgettable Bali journeys.</p>
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <h2 class="text-3xl md:text-4xl font-bold mb-4 text-emerald-600">What our adventurers say?</h2>
+          <p class="text-lg text-gray-600 mb-10 md:mb-16">We are thrilled to be a part of their unforgettable Bali journeys.</p>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
               {testimonials.map((t) => (
-                <div class="bg-gray-50 p-8 rounded-lg shadow-lg flex flex-col justify-between">
-                  <p class="text-gray-600 italic mb-6">"{t.text}"</p>
-                  <div class="border-t pt-4 border-gray-200">
-                    <p class="font-bold text-gray-800">{t.name}</p>
+                <div class="bg-gray-50 p-6 md:p-8 rounded-2xl shadow-md hover:shadow-lg transition flex flex-col justify-between border border-gray-100">
+                  <p class="text-gray-600 italic mb-6 md:mb-8 leading-relaxed">"{t.text}"</p>
+                  <div class="border-t pt-4 md:pt-6 border-gray-200 text-left flex flex-col items-center">
+                    <p class="font-bold text-gray-800 text-lg">{t.name}</p>
                     <p class="text-sm text-emerald-600 font-medium">{t.location}</p>
                   </div>
                 </div>
@@ -141,31 +143,31 @@ const pageDescription = settings.heroSubtitle;
   </section>
 
   {/* PACKAGES */}
-  <section id="package" class="py-20 px-4 bg-gray-50">
+  <section id="package" class="py-16 md:py-24 px-6 md:px-12 bg-gray-50">
     <div class="container mx-auto text-center">
-      <h2 class="text-3xl font-bold mb-4 text-emerald-600">Choose your Bali adventure</h2>
-      <p class="text-lg mb-12 text-gray-600">We offer premium packages for cycling, trekking, and rafting.</p>
+      <h2 class="text-3xl md:text-4xl font-bold mb-4 text-emerald-600">Choose your Bali adventure</h2>
+      <p class="text-lg text-gray-600 mb-10 md:mb-16">We offer premium packages for cycling, trekking, and rafting.</p>
     </div>
-    <div class="container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <div class="container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
       {packages.map((pkg) => <PackageCard client:load packageData={pkg} />)}
     </div>
   </section>
 
   {/* FAQ SECTION */}
-  <section id="faq" class="py-20 px-4 bg-white">
+  <section id="faq" class="py-16 md:py-24 px-6 md:px-12 bg-white">
     <div class="container mx-auto max-w-3xl">
       <div class="text-center">
-        <h2 class="text-3xl font-bold mb-4 text-emerald-600">Frequently Asked Questions</h2>
-        <p class="text-lg mb-12 text-gray-600">Still not sure? Find your answer here.</p>
+        <h2 class="text-3xl md:text-4xl font-bold mb-4 text-emerald-600">Frequently Asked Questions</h2>
+        <p class="text-lg text-gray-600 mb-10 md:mb-16">Still not sure? Find your answer here.</p>
       </div>
-      <div class="space-y-4">
+      <div class="space-y-4 md:space-y-6">
         {faqs.map((faq) => (
-          <details class="group bg-gray-50 p-6 rounded-lg shadow-sm border border-gray-100">
-            <summary class="font-semibold text-lg cursor-pointer flex justify-between items-center text-gray-800">
-              {faq.question}
-              <span class="transform transition-transform duration-300 group-open:rotate-180 text-emerald-600">▼</span>
+          <details class="group bg-gray-50 p-5 md:p-6 rounded-xl shadow-sm border border-gray-200">
+            <summary class="font-semibold text-base md:text-lg cursor-pointer flex justify-between items-center text-gray-800">
+              <span class="pr-6">{faq.question}</span>
+              <span class="transform transition-transform duration-300 group-open:rotate-180 text-emerald-600 shrink-0">▼</span>
             </summary>
-            <p class="mt-4 text-gray-700 leading-relaxed">{faq.answer}</p>
+            <p class="mt-4 text-gray-600 leading-relaxed text-sm md:text-base border-t border-gray-200 pt-4">{faq.answer}</p>
           </details>
         ))}
       </div>
@@ -173,23 +175,25 @@ const pageDescription = settings.heroSubtitle;
   </section>
 
   {/* CONTACT */}
-  <section id="address" class="py-20 px-4 bg-gray-100">
+  <section id="address" class="py-16 md:py-24 px-6 md:px-12 bg-gray-100">
     <div class="container mx-auto text-center">
-      <h2 class="text-3xl font-bold mb-4 text-emerald-600">Ready for an adventure?</h2>
-      <p class="text-lg mb-12 text-gray-600">Secure your spot now or contact us with any further questions.</p>
+      <h2 class="text-3xl md:text-4xl font-bold mb-4 text-emerald-600">Ready for an adventure?</h2>
+      <p class="text-lg text-gray-600 mb-10 md:mb-16">Secure your spot now or contact us with any further questions.</p>
     </div>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center container mx-auto">
-      <div>
-        <div class="bg-white p-8 rounded-lg shadow-lg">
-          <h3 class="text-2xl font-semibold mb-4">Contact Information</h3>
-          <p class="mb-2"><strong>WhatsApp:</strong> <a href={`https://wa.me/${settings.whatsappNumber}`} target="_blank" class="text-emerald-600 hover:underline">+{settings.whatsappNumber}</a></p>
-          <p class="mb-2"><strong>Email:</strong> {settings.email}</p>
-          <p class="mb-4"><strong>Alamat:</strong> {settings.address}</p>
-          <a href={`https://wa.me/${settings.whatsappNumber}`} target="_blank" class="inline-block bg-orange-500 text-white font-bold px-6 py-3 rounded-full hover:bg-orange-600 shadow-md">Chat via WhatsApp</a>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-stretch container mx-auto">
+      <div class="flex flex-col h-full">
+        <div class="bg-white p-6 md:p-10 rounded-2xl shadow-lg h-full flex flex-col justify-center">
+          <h3 class="text-2xl md:text-3xl font-semibold mb-6 md:mb-8 text-gray-800">Contact Information</h3>
+          <div class="space-y-4 mb-8">
+            <p class="text-base md:text-lg"><strong class="text-gray-800">WhatsApp:</strong> <br class="md:hidden"/> <a href={`https://wa.me/${settings.whatsappNumber}`} target="_blank" class="text-emerald-600 hover:text-emerald-700 font-medium">+{settings.whatsappNumber}</a></p>
+            <p class="text-base md:text-lg"><strong class="text-gray-800">Email:</strong> <br class="md:hidden"/> <span class="text-gray-600">{settings.email}</span></p>
+            <p class="text-base md:text-lg"><strong class="text-gray-800">Alamat:</strong> <br class="md:hidden"/> <span class="text-gray-600">{settings.address}</span></p>
+          </div>
+          <a href={`https://wa.me/${settings.whatsappNumber}`} target="_blank" class="inline-block text-center bg-orange-500 text-white font-bold px-6 py-4 rounded-xl hover:bg-orange-600 shadow-md transition transform hover:-translate-y-1 w-full md:w-fit">Chat via WhatsApp</a>
         </div>
       </div>
-      <div class="bg-white shadow-lg rounded-lg overflow-hidden h-full">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126268.08253139366!2d115.1950348783451!3d-8.506856501755106!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd23d739f22c1dd%3A0x93035b4dd585d898!2sUbud%2C%20Gianyar%20Regency%2C%20Bali!5e0!3m2!1sen!2sid!4v1714470500123!5m2!1sen!2sid" width="100%" height="400" style="border:0;"></iframe>
+      <div class="bg-white shadow-lg rounded-2xl overflow-hidden h-[300px] md:h-[400px] lg:h-full min-h-[300px]">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126268.08253139366!2d115.1950348783451!3d-8.506856501755106!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd23d739f22c1dd%3A0x93035b4dd585d898!2sUbud%2C%20Gianyar%20Regency%2C%20Bali!5e0!3m2!1sen!2sid!4v1714470500123!5m2!1sen!2sid" width="100%" height="100%" style="border:0; min-height: 100%;" allowfullscreen="" loading="lazy"></iframe>
       </div>
     </div>
   </section>
