@@ -1,7 +1,11 @@
 {
-  "heroTitle": "Discover The Thrill ofe Balisa",
+  "heroTitle": "Discover The Thrill of Balisa",
   "heroSubtitle": "Experience the best cycling, trekking, and rafting adventures in the heart of nature.",
-  "heroBgImage": "https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?q=80&w=1440&auto=format&fit=crop",
+  "heroImages": [
+    "https://github.com/adiarthaputra/jayaprana_adventure/blob/main/gambar/WhatsApp%20Image%202026-09-03%20at%2016.39.14.jpeg?raw=true",
+    "https://github.com/adiarthaputra/jayaprana_adventure/blob/main/gambar/WhatsApp%20Image%202026-09-03%20at%2018.50.01.jpeg?raw=true",
+    "https://github.com/adiarthaputra/jayaprana_adventure/blob/main/gambar/WhatsApp%20Image%202026-09-03%20at%2018.50.56.jpeg?raw=true"
+  ],
   "whatsappNumber": "6281337626262",
   "email": "info@jayapranatour.com"
 }

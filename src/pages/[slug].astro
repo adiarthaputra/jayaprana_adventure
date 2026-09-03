@@ -3,12 +3,11 @@ import MainLayout from '../layouts/Layout.astro';
 import packagesData from '../data/singlepackage.json';
 import siteSettingsData from '../data/siteSettings.json';
 
-// Memberi tahu Astro daftar slug apa saja yang harus dibuatkan halaman statis
 export function getStaticPaths() {
   return packagesData.map((pkg) => {
     return {
       params: { slug: pkg.slug },
-      props: { packageInfo: pkg }, // Lempar semua data agar aman
+      props: { packageInfo: pkg },
     };
   });
 }
@@ -16,12 +15,10 @@ export function getStaticPaths() {
 const { packageInfo } = Astro.props;
 const settings = siteSettingsData;
 
-// Pencegahan error jika data kosong, langsung lempar ke home yang pakai BASE_URL
 if (!packageInfo) {
   return Astro.redirect(import.meta.env.BASE_URL);
 }
 
-// Format link kembali (Back to Packages) yang kebal terhadap GitHub Pages / Localhost
 const backUrl = import.meta.env.BASE_URL === '/' ? '/#package' : `${import.meta.env.BASE_URL}#package`;
 ---
 
@@ -33,7 +30,6 @@ const backUrl = import.meta.env.BASE_URL === '/' ? '/#package' : `${import.meta.
   <section class="pt-32 pb-16 px-4 bg-gray-50">
     <div class="container mx-auto max-w-5xl">
       <div class="mb-6">
-        <!-- LINK BACK YANG SUDAH AMAN UNTUK GITHUB PAGES -->
         <a href={backUrl} class="inline-flex items-center text-gray-500 hover:text-emerald-600 transition font-medium">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -45,25 +41,30 @@ const backUrl = import.meta.env.BASE_URL === '/' ? '/#package' : `${import.meta.
       <div class="bg-white rounded-2xl shadow-xl overflow-hidden flex flex-col md:flex-row">
         <div class="md:w-1/2 h-64 md:h-auto relative group">
           <img src={packageInfo.image} alt={packageInfo.title} class="w-full h-full object-cover transition duration-500 group-hover:scale-105" />
-          <div class="absolute top-4 left-4 bg-red-500 text-white font-bold px-4 py-1 rounded-full text-sm shadow-md">Promo</div>
         </div>
         
-        <div class="md:w-1/2 p-8 flex flex-col justify-center">
-          <h1 class="text-3xl font-bold text-gray-800 mb-2">{packageInfo.title}</h1>
-          <div class="w-16 h-1 bg-emerald-500 mb-4 rounded-full"></div>
+        <div class="md:w-1/2 p-6 md:p-8 flex flex-col justify-center">
+          <h1 class="text-2xl md:text-3xl font-bold text-gray-800 mb-2">{packageInfo.title}</h1>
+          <div class="w-16 h-1 bg-emerald-500 mb-6 rounded-full"></div>
           
-          <!-- Menampilkan Opsi Harga Single/Couple/Group -->
-          <div class="grid grid-cols-3 gap-2 mb-6 pb-6 border-b border-gray-100">
+          <h3 class="font-bold text-gray-700 mb-3 text-sm md:text-base">1. Select Package Type (Can select multiple):</h3>
+          
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3 mb-2">
             {packageInfo.packages?.map((pkg) => (
-              <div class="bg-gray-50 p-2 rounded-lg border border-gray-200 text-center flex flex-col justify-center">
-                <p class="text-[10px] sm:text-xs font-bold text-gray-500 uppercase">{pkg.type}</p>
-                <p class="text-sm sm:text-lg font-bold text-emerald-600">{pkg.discountedPrice}</p>
-                <p class="text-[10px] text-gray-400 line-through">{pkg.originalPrice}</p>
-              </div>
+              <button 
+                type="button"
+                class="package-btn bg-gray-50 p-2 rounded-xl border-2 border-gray-100 hover:bg-emerald-50 hover:border-emerald-300 text-center flex flex-col justify-center cursor-pointer transition-all py-3 shadow-sm"
+                data-pkg-type={pkg.type}
+              >
+                <p class="text-[10px] sm:text-xs font-bold text-gray-500 uppercase transition-colors btn-text-type">{pkg.type}</p>
+                <p class="text-sm sm:text-lg font-bold text-emerald-600 mt-1 transition-colors btn-text-price">IDR {pkg.discountedPrice}</p>
+              </button>
             ))}
           </div>
+          <p id="package-error" class="text-rose-500 text-xs font-medium hidden mb-6 mt-1">⚠️ Please tap at least one package type above.</p>
+          <div id="package-spacer" class="mb-6"></div>
           
-          <h3 class="font-bold text-gray-700 mb-4">Secure Your Spot:</h3>
+          <h3 class="font-bold text-gray-700 mb-3 text-sm md:text-base">2. Fill Your Details:</h3>
           
           <form 
             id="wa-booking-form" 
@@ -74,29 +75,32 @@ const backUrl = import.meta.env.BASE_URL === '/' ? '/#package' : `${import.meta.
             <div>
               <input type="text" id="book-name" required placeholder="Full Name" class="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none transition" />
             </div>
-            
-            <!-- Dropdown Memilih Tipe Paket -->
-            <div>
-              <select id="book-package-type" required class="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none transition text-gray-600">
-                <option value="" disabled selected>Select Package Type</option>
-                {packageInfo.packages?.map((pkg) => (
-                  <option value={pkg.type}>{pkg.type} - {pkg.discountedPrice}</option>
-                ))}
-              </select>
+
+            <div class="grid grid-cols-3 gap-2 md:gap-4">
+              <div>
+                <input type="date" id="book-date" required class="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none transition text-gray-600 text-sm md:text-base" />
+              </div>
+              <div>
+                <input type="time" id="book-time" required class="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none transition text-gray-600 text-sm md:text-base" />
+              </div>
+              <div>
+                <input type="number" id="book-pax" min="1" required placeholder="Pax" class="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none transition text-sm md:text-base" />
+              </div>
             </div>
 
-            <div class="flex gap-4">
-              <div class="w-1/2">
-                <input type="date" id="book-date" required class="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none transition text-gray-600" />
-              </div>
-              <div class="w-1/2">
-                <input type="number" id="book-pax" min="1" required placeholder="Pax" class="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none transition" />
-              </div>
+            <div class="bg-emerald-50/50 p-3 rounded-lg border border-emerald-100 flex flex-col gap-2">
+              <label class="flex items-center gap-2 cursor-pointer select-none">
+                <input type="checkbox" id="book-pickup" class="w-4 h-4 text-emerald-600 rounded border-emerald-300 focus:ring-emerald-500 cursor-pointer" />
+                <span class="text-gray-700 text-sm font-semibold">Add Hotel Pickup <span class="text-orange-500 text-xs">(Extra Charge)</span></span>
+              </label>
+              <input type="text" id="book-hotel" placeholder="Hotel Name or Area (e.g., Kuta, Seminyak)" class="hidden w-full px-4 py-2 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none transition text-sm mt-1" />
             </div>
+
             <div>
               <textarea id="book-notes" rows="2" placeholder="Special Request (Optional)" class="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none transition"></textarea>
             </div>
-            <button type="submit" class="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-4 rounded-lg transition shadow-md flex justify-center items-center gap-2 mt-2">
+            
+            <button type="submit" class="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-4 rounded-xl transition shadow-md flex justify-center items-center gap-2 mt-4">
               Send Booking via WhatsApp
             </button>
           </form>
@@ -107,8 +111,6 @@ const backUrl = import.meta.env.BASE_URL === '/' ? '/#package' : `${import.meta.
 
   <section class="py-12 px-4 bg-white mb-12">
     <div class="container mx-auto max-w-5xl grid grid-cols-1 md:grid-cols-3 gap-8">
-      
-      <!-- Menampilkan Details Berdasarkan Tipe Paket -->
       <div class="bg-gray-50 p-8 rounded-xl border border-gray-100">
         <h3 class="text-xl font-bold text-gray-800 mb-6 border-b border-gray-200 pb-3">Package Details</h3>
         <div class="space-y-6 max-h-80 overflow-y-auto pr-2 custom-scrollbar">
@@ -149,35 +151,161 @@ const backUrl = import.meta.env.BASE_URL === '/' ? '/#package' : `${import.meta.
           ))}
         </ul>
       </div>
-
     </div>
   </section>
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      const form = document.getElementById('wa-booking-form') as HTMLFormElement | null;
+      const packageBtns = document.querySelectorAll('.package-btn');
+      const packageError = document.getElementById('package-error');
+      const packageSpacer = document.getElementById('package-spacer');
+      const paxInput = document.getElementById('book-pax') as HTMLInputElement | null;
       
+      let selectedPackages: string[] = [];
+
+      function calculatePax() {
+        let total = 0;
+        selectedPackages.forEach(pkg => {
+          const typeStr = pkg.toLowerCase();
+          if (typeStr.includes('single')) total += 1;
+          if (typeStr.includes('couple')) total += 2;
+          if (typeStr.includes('family')) total += 4;
+        });
+        return total;
+      }
+
+      packageBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const target = e.currentTarget as HTMLElement;
+          const clickedType = target.dataset.pkgType || '';
+          const isGroup = clickedType.toLowerCase().includes('group');
+
+          if (isGroup) {
+            if (selectedPackages.includes(clickedType)) {
+              selectedPackages = []; 
+            } else {
+              selectedPackages = [clickedType]; 
+            }
+          } else {
+            selectedPackages = selectedPackages.filter(p => !p.toLowerCase().includes('group'));
+            
+            const clickedLower = clickedType.toLowerCase();
+            if (clickedLower.includes('family')) {
+              selectedPackages = selectedPackages.filter(p => !p.toLowerCase().includes('couple'));
+            } else if (clickedLower.includes('couple')) {
+              selectedPackages = selectedPackages.filter(p => !p.toLowerCase().includes('family'));
+            }
+
+            if (selectedPackages.includes(clickedType)) {
+              selectedPackages = selectedPackages.filter(p => p !== clickedType);
+            } else {
+              selectedPackages.push(clickedType);
+            }
+          }
+
+          packageBtns.forEach(b => {
+            const htmlElement = b as HTMLElement;
+            const bType = htmlElement.dataset.pkgType || '';
+            
+            const typeText = htmlElement.querySelector('.btn-text-type');
+            const priceText = htmlElement.querySelector('.btn-text-price');
+
+            if (selectedPackages.includes(bType)) {
+              htmlElement.classList.remove('bg-gray-50', 'border-gray-100', 'hover:bg-emerald-50', 'hover:border-emerald-300');
+              htmlElement.classList.add('bg-emerald-600', 'border-emerald-600', 'ring-2', 'ring-emerald-400', 'shadow-md');
+              if (typeText) typeText.classList.replace('text-gray-500', 'text-white');
+              if (priceText) priceText.classList.replace('text-emerald-600', 'text-white');
+            } else {
+              htmlElement.classList.remove('bg-emerald-600', 'border-emerald-600', 'ring-2', 'ring-emerald-400', 'shadow-md');
+              htmlElement.classList.add('bg-gray-50', 'border-gray-100', 'hover:bg-emerald-50', 'hover:border-emerald-300');
+              if (typeText && typeText.classList.contains('text-white')) {
+                typeText.classList.replace('text-white', 'text-gray-500');
+              }
+              if (priceText && priceText.classList.contains('text-white')) {
+                priceText.classList.replace('text-white', 'text-emerald-600');
+              }
+            }
+          });
+
+          if (paxInput) {
+            if (selectedPackages.length === 0) {
+              paxInput.value = '';
+              paxInput.min = '1';
+              paxInput.readOnly = false;
+              paxInput.classList.remove('bg-gray-200', 'text-gray-500', 'cursor-not-allowed');
+            } else if (selectedPackages.some(p => p.toLowerCase().includes('group'))) {
+              paxInput.value = '6';
+              paxInput.min = '6';
+              paxInput.readOnly = false;
+              paxInput.classList.remove('bg-gray-200', 'text-gray-500', 'cursor-not-allowed');
+            } else {
+              const totalPax = calculatePax();
+              paxInput.value = totalPax.toString();
+              paxInput.readOnly = true;
+              paxInput.classList.add('bg-gray-200', 'text-gray-500', 'cursor-not-allowed');
+            }
+          }
+
+          if (packageError && packageSpacer && selectedPackages.length > 0) {
+            packageError.classList.add('hidden');
+            packageSpacer.classList.remove('hidden');
+          }
+        });
+      });
+
+      const pickupCheckbox = document.getElementById('book-pickup') as HTMLInputElement | null;
+      const hotelInput = document.getElementById('book-hotel') as HTMLInputElement | null;
+
+      if (pickupCheckbox && hotelInput) {
+        pickupCheckbox.addEventListener('change', (e) => {
+          const target = e.target as HTMLInputElement;
+          if (target.checked) {
+            hotelInput.classList.remove('hidden');
+            hotelInput.setAttribute('required', 'true');
+          } else {
+            hotelInput.classList.add('hidden');
+            hotelInput.removeAttribute('required');
+            hotelInput.value = ''; 
+          }
+        });
+      }
+      
+      const form = document.getElementById('wa-booking-form') as HTMLFormElement | null;
       if (form) {
         form.addEventListener('submit', (e) => {
           e.preventDefault();
           
+          if (selectedPackages.length === 0) {
+            if (packageError && packageSpacer) {
+              packageError.classList.remove('hidden');
+              packageSpacer.classList.add('hidden');
+            }
+            window.scrollTo({ top: packageBtns[0].getBoundingClientRect().top + window.scrollY - 100, behavior: 'smooth' });
+            return;
+          }
+          
           const nameInput = document.getElementById('book-name') as HTMLInputElement | null;
-          const packageTypeInput = document.getElementById('book-package-type') as HTMLSelectElement | null;
           const dateInput = document.getElementById('book-date') as HTMLInputElement | null;
-          const paxInput = document.getElementById('book-pax') as HTMLInputElement | null;
+          const timeInput = document.getElementById('book-time') as HTMLInputElement | null;
           const notesInput = document.getElementById('book-notes') as HTMLTextAreaElement | null;
           
           const name = nameInput?.value || '';
-          const packageType = packageTypeInput?.value || '';
           const date = dateInput?.value || '';
+          const time = timeInput?.value || '';
           const pax = paxInput?.value || '';
           const notes = notesInput?.value || '-';
+          
+          const isPickup = pickupCheckbox?.checked;
+          const hotelLoc = hotelInput?.value || 'TBA';
+          const pickupStatusText = isPickup ? `Yes (At ${hotelLoc} - Please inform extra charge)` : 'No';
           
           const pkgTitle = form.dataset.pkgtitle || 'Paket Tour';
           let waNumber = form.dataset.wanumber || '';
           waNumber = waNumber.replace(/[^0-9]/g, ''); 
+          
+          const comboTypeStr = selectedPackages.join(' + ');
 
-          const message = `Hello Bali Adventure Explorer!%0AI would like to book a tour:%0A%0A📦 *Package:* ${pkgTitle} (${packageType})%0A👤 *Name:* ${name}%0A📅 *Date:* ${date}%0A👥 *Participants:* ${pax} Pax%0A📝 *Notes:* ${notes}%0A%0APlease let me know the availability. Thank you!`;
+          const message = `Hello Bali Adventure Explorer!%0AI would like to book a tour:%0A%0A*Package:* ${pkgTitle}%0A*Type:* ${comboTypeStr}%0A*Name:* ${name}%0A*Date & Time:* ${date} at ${time}%0A*Participants:* ${pax} Pax%0A*Need Pickup:* ${pickupStatusText}%0A*Notes:* ${notes}%0A%0APlease let me know the availability and the total price. Thank you!`;
           
           window.open(`https://wa.me/${waNumber}?text=${message}`, '_blank');
         });

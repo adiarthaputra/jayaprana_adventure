@@ -29,7 +29,7 @@ interface PackageData {
 interface SiteSettings {
   heroTitle: string;
   heroSubtitle: string;
-  heroBgImage: string;
+  heroImages: string[];
   whatsappNumber: string;
   email: string;
   address?: string;
@@ -65,16 +65,21 @@ const about = {
 
 const pageTitle = `${settings.heroTitle} - Bali Adventure Explorer`;
 const pageDescription = settings.heroSubtitle;
+const heroImagesJson = JSON.stringify(settings.heroImages || []);
 ---
 
 <MainLayout
   title={pageTitle}
   description={pageDescription}
   keywords="bali travel agent, bali rafting, bali trekking, bali cycling"
-  image={settings.heroBgImage} 
+  image={settings.heroImages?.[0] || ''} 
 >
-  {/* HERO */}
-  <section id="home" class="min-h-[70vh] md:min-h-screen flex items-center justify-center relative" style={`background-image: url('${formatUrl(settings.heroBgImage)}'); background-size: cover; background-position: center;`}>
+  {/* HERO SLIDESHOW */}
+  <section 
+    id="hero-slideshow" 
+    class="min-h-[70vh] md:min-h-screen flex items-center justify-center relative bg-cover bg-center transition-all duration-1000"
+    style={`background-image: url('${settings.heroImages?.[0] || ''}');`}
+  >
     <div class="absolute inset-0 bg-black opacity-60"></div>
     <div class="text-center relative z-10 text-white px-6 py-20 max-w-4xl mx-auto mt-10 md:mt-0">
         <h1 class="text-4xl md:text-6xl font-bold mb-4 md:mb-6 leading-tight">{settings.heroTitle}</h1>
@@ -82,6 +87,24 @@ const pageDescription = settings.heroSubtitle;
         <a href="#package" class="inline-block bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-8 rounded-full text-base md:text-lg shadow-lg transition transform hover:-translate-y-1">Lets Explore</a>
     </div>
   </section>
+
+  {/* SCRIPT SLIDESHOW */}
+  <script define:vars={{ heroImagesJson }}>
+    document.addEventListener('DOMContentLoaded', () => {
+      const images = JSON.parse(heroImagesJson);
+      if (!images || images.length <= 1) return;
+
+      const heroSection = document.getElementById('hero-slideshow');
+      let currentIndex = 0;
+
+      setInterval(() => {
+        currentIndex = (currentIndex + 1) % images.length;
+        if (heroSection) {
+          heroSection.style.backgroundImage = `url('${images[currentIndex]}')`;
+        }
+      }, 5000); // Gambar berganti setiap 5 detik
+    });
+  </script>
 
   {/* ABOUT US */}
   <section id="about" class="py-16 md:py-24 px-6 md:px-12 bg-white">
