@@ -1,5 +1,9 @@
 {
+<<<<<<< HEAD
   "heroTitle": "Discover The Thrill of Balisa",
+=======
+  "heroTitle": "Discover The Thrill of Bali",
+>>>>>>> cf3776a15860b8e3b88935c2e2ed6262e144b690
   "heroSubtitle": "Experience the best cycling, trekking, and rafting adventures in the heart of nature.",
   "heroImages": [
     "https://github.com/adiarthaputra/jayaprana_adventure/blob/main/gambar/WhatsApp%20Image%202026-09-03%20at%2016.39.14.jpeg?raw=true",
@@ -7,5 +11,5 @@
     "https://github.com/adiarthaputra/jayaprana_adventure/blob/main/gambar/WhatsApp%20Image%202026-09-03%20at%2018.50.56.jpeg?raw=true"
   ],
   "whatsappNumber": "6281337626262",
-  "email": "info@jayapranatour.com"
+  "email": "Jayapranatour@gmail.com"
 }
